@@ -13,7 +13,6 @@
                ref="input"
                @on-focus="onFieldClick"
                @on-blur="onInputExit"
-               @keyup.enter.native="onInputExit"
                v-on="listeners"
                v-bind="$attrs"
                v-model="model">
