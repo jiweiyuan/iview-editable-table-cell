@@ -1,5 +1,10 @@
 # iview-editable-table-cell
 
+## Preview
+
+http://www.yuanjiwei.com/iview-editable-table-cell/
+
+
 ## Project setup
 ```
 yarn install
