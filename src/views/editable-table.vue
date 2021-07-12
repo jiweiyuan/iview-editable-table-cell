@@ -1,6 +1,6 @@
 <template>
   <Table :columns="columns" :data="data">
-    <template  v-for="(column, index) of dataColumns" slot-scope="{row}" :slot="column.slot">
+    <template v-for="(column, index) of columns" slot-scope="{row}" :slot="column.slot">
       <div :key="index">
         <editable-table-cell :meta="{row: row, col: column}" :show-input="row.editMode" v-model="row[column.slot]" @on-save="handleSave">
           <span slot="content">{{ row[column.slot] }}</span>
@@ -25,19 +25,23 @@ export default {
         },
         {
           title: '姓名',
-          slot: 'name'
+          slot: 'name',
+          minWidth: 300
         },
         {
           title: '年龄',
-          slot: 'age'
+          slot: 'age',
+          minWidth: 300
         },
         {
           title: '出生日期',
-          slot: 'birthday'
+          slot: 'birthday',
+          minWidth: 300
         },
         {
           title: '地址',
-          slot: 'address'
+          slot: 'address',
+          minWidth: 300
         }
       ],
       baseColumns: [],
@@ -48,6 +52,10 @@ export default {
         {
           title: '年龄',
           slot: 'age'
+        },
+        {
+          title: '年龄1',
+          key: 'age1'
         },
         {
           title: '出生日期',

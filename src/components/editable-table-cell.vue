@@ -1,5 +1,5 @@
 <template>
-  <div @click="onFieldClick" class="edit-cell">
+  <div @dblclick="onFieldClick" class="edit-cell">
     <Tooltip v-if="!editMode && !showInput"
                 :placement="toolTipPlacement"
                 :content="toolTipContent">
@@ -12,11 +12,10 @@
                v-if="editMode || showInput"
                ref="input"
                @on-focus="onFieldClick"
-               @on-blur="onInputExit"
                v-on="listeners"
                v-bind="$attrs"
                v-model="model">
-      <slot name="edit-component-slot"></slot>
+      <slot name="editable-component-slot"></slot>
     </component>
   </div>
 </template>
@@ -26,7 +25,7 @@ export default {
   inheritAttrs: false,
   props: {
     value: {
-      type: [String, Number],
+      type: [String, Number, Boolean],
       default: ""
     },
     meta: {
@@ -35,7 +34,7 @@ export default {
     },
     toolTipContent: {
       type: String,
-      default: "点击编辑"
+      default: "双击编辑"
     },
     toolTipPlacement: {
       type: String,
@@ -51,7 +50,7 @@ export default {
     },
     closeEvent: {
       type: String,
-      default: "blur"
+      default: "on-blur"
     }
   },
   data() {
@@ -81,15 +80,19 @@ export default {
     onFieldClick() {
       this.editMode = true;
       this.$nextTick(() => {
+        console.log('refs', this.$refs)
         let inputRef = this.$refs.input;
-        if (inputRef) {
+        if (inputRef && typeof inputRef.focus === 'function') {
           inputRef.focus();
         }
       });
     },
-    onInputExit() {
+    onInputExit(val) {
+      if (val instanceof FocusEvent)  {
+        val = this.model
+      }
       this.editMode = false;
-      this.$emit('on-save', this.value, this.meta)
+      this.$emit('on-save', val, this.meta)
     }
   }
 };
